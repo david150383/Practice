@@ -1,0 +1,137 @@
+Angular provides two main change detection strategies for components: Default (CheckAlways) and OnPush (CheckOnce). The OnPush strategy offers significant performance optimizations by reducing the number of times Angular checks a component for changes. 
+
+default vs onpush change detection
+lazy loading vs egar loading
+when use module and when Component ?
+//1 Counter Component
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-counter',
+  standalone: true,
+  template: `<h2>Counter New: {{ count }}</h2>
+
+    <button (click)="decrement()" [disabled]="count === 0">-</button>
+    <button (click)="increment()">+</button>`,
+})
+export class CounterComponent {
+  count = 0;
+
+  increment() {
+    this.count++;
+  }
+
+  decrement() {
+    if (this.count > 0) {
+      this.count--;
+    }
+  }
+}
+
+
+2. two way data binding
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+@Component({
+  selector: 'app-counter',
+  standalone: true,
+  imports: [FormsModule],
+  template: `<h2>Name: {{ title }}</h2>
+    <input type="text" [(ngModel)]="title" placeholder="New todo" /> `,
+})
+export class CounterComponent {
+  title = 'my title';
+}
+
+3. fetch result
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+@Component({
+  selector: 'app-counter',
+  standalone: true,
+  imports: [CommonModule],
+  template: `<h2>Users</h2>
+
+    <p *ngIf="loading">Loading...</p>
+    <p *ngIf="error">{{ error }}</p>
+
+    <ul>
+      <li *ngFor="let user of users">{{ user.name }} — {{ user.email }}</li>
+    </ul>
+
+    <button (click)="fetchUsers()">Reload</button> `,
+})
+export class CounterComponent implements OnInit {
+  users: User[] = [];
+  loading = false;
+  error = '';
+
+  ngOnInit() {
+    fetchUsers();
+  }
+
+  async fetchUsers() {
+    this.loading = true;
+    this.error = '';
+
+    try {
+      this.loading = true;
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then((res) => res.json())
+        .then((res) => (this.users = res));
+    } catch (err) {
+      this.error = 'Failed to load users';
+      console.error(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+
+4. Parent to child comunication
+//Parent
+
+import { Component } from '@angular/core';
+import { ChildComponent } from './child.component';
+@Component({
+  selector: 'app-counter',
+  standalone: true,
+  imports: [ChildComponent],
+  template: `<app-child [message]="parentMessage" (dataSent)="handleData($event)"></app-child>
+    <p>Received: {{ receivedMessage }}</p> `,
+})
+export class CounterComponent {
+  receivedMessage = '';
+
+  handleData(message: string) {
+    this.receivedMessage = message;
+  }
+  parentMessage = 'Hello from parent';
+}
+
+// child.component.ts
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: ` <p>Message from parent: {{ message }}</p>
+    <button (click)="sendData()">Send to Parent</button>`,
+})
+export class ChildComponent {
+  @Output() dataSent = new EventEmitter<string>();
+  @Input() message!: string;
+
+  sendData() {
+    this.dataSent.emit('Hello from child 👋');
+  }
+}
+
+
+

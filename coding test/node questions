@@ -1,0 +1,5 @@
+Q2: When would you use debounce vs throttle?
+
+Debounce: Autocomplete search, window resize events, form validation on typing.
+
+Throttle: Scroll animations, infinite scroll, tracking mouse movements.

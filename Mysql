@@ -1,0 +1,234 @@
+cross join
+
+MYSQL PRACTICAL INTERVIEW QUESTIONS (WITH QUERIES)
+
+1. Find the Second Highest Salary
+   SELECT MAX(salary)
+   FROM employees
+   WHERE salary < (SELECT MAX(salary) FROM employees);
+
+---
+
+2. Find the Third Highest Salary
+   SELECT salary
+   FROM employees
+   ORDER BY salary DESC
+   LIMIT 1 OFFSET 2;
+
+---
+
+3. Find Duplicate Records in a Table
+   SELECT email, COUNT(*)
+   FROM users
+   GROUP BY email
+   HAVING COUNT(*) > 1;
+
+---
+
+4. Delete Duplicate Records (Keep One)
+   DELETE t1
+   FROM users t1
+   JOIN users t2
+   ON t1.email = t2.email
+   AND t1.id > t2.id;
+
+---
+
+5. Retrieve the Last 5 Inserted Records
+   SELECT *
+   FROM employees
+   ORDER BY id DESC
+   LIMIT 5;
+
+---
+
+6. Count Employees in Each Department
+   SELECT department_id, COUNT(*) AS total_employees
+   FROM employees
+   GROUP BY department_id;
+
+---
+
+7. Find Employees with Salary Greater Than Average
+   SELECT *
+   FROM employees
+   WHERE salary > (SELECT AVG(salary) FROM employees);
+
+---
+
+8. Get Employees Joined in Last 30 Days
+   SELECT *
+   FROM employees
+   WHERE join_date >= CURDATE() - INTERVAL 30 DAY;
+
+---
+
+9. Get Top 3 Highest Salaries
+   SELECT *
+   FROM employees
+   ORDER BY salary DESC
+   LIMIT 3;
+
+If You Want Top 3 Distinct Salaries
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 3;
+
+---
+
+10. Find Departments Having More Than 5 Employees
+    SELECT department_id, COUNT(*)
+    FROM employees
+    GROUP BY department_id
+    HAVING COUNT(*) > 5;
+
+---
+
+11. Update Salary by 10 Percent
+    UPDATE employees
+    SET salary = salary * 1.10;
+
+---
+
+12. Find Employees Without Department
+    SELECT *
+    FROM employees
+    WHERE department_id IS NULL;
+
+---
+
+13. INNER JOIN Example
+    SELECT e.name, d.department_name
+    FROM employees e
+    INNER JOIN departments d
+    ON e.department_id = d.id;
+
+---
+
+14. LEFT JOIN Example
+    SELECT e.name, d.department_name
+    FROM employees e
+    LEFT JOIN departments d
+    ON e.department_id = d.id;
+
+---
+
+15. Find Common Records Between Two Tables
+    SELECT email
+    FROM table1
+    INNER JOIN table2 USING(email);
+
+---
+
+16. Create Index on Email Column
+    CREATE INDEX idx_email
+    ON users(email);
+
+---
+
+17. Remove All Records but Keep Table Structure
+    TRUNCATE TABLE employees;
+
+---
+
+18. Find Total Salary by Department
+    SELECT department_id, SUM(salary) AS total_salary
+    FROM employees
+    GROUP BY department_id;
+
+---
+
+19. Find Maximum Salary in Each Department
+    SELECT department_id, MAX(salary)
+    FROM employees
+    GROUP BY department_id;
+
+---
+
+20. Difference Between WHERE and HAVING Example
+    SELECT department_id, COUNT(*)
+    FROM employees
+    WHERE salary > 30000
+    GROUP BY department_id
+    HAVING COUNT(*) > 2;
+
+---
+
+21. Find Employees with Same Salary
+    SELECT salary, COUNT(*)
+    FROM employees
+    GROUP BY salary
+    HAVING COUNT(*) > 1;
+
+---
+
+22. Rename a Table
+    RENAME TABLE employees TO staff;
+
+---
+
+23. Add a New Column
+    ALTER TABLE employees
+    ADD age INT;
+
+---
+
+24. Drop a Column
+    ALTER TABLE employees
+    DROP COLUMN age;
+
+---
+
+25. Get Current Date in MySQL
+    SELECT CURDATE();
+
+---
+
+26. Find Second Highest Salary Using Rank
+SELECT *
+FROM (
+    SELECT name, salary,
+    RANK() OVER (ORDER BY salary DESC) AS rnk
+    FROM employees
+) t
+WHERE rnk = 2;
+
+---
+END OF DOCUMENT
+
+
+Rank
+RANK() 1,2,2,4, Skips numbers after ties, Same salaries get the same rank
+DENSE_RANK() 1,2,2,3.  No gaps in ranking
+ROW_NUMBER() 1,2,3,4. Always gives unique numbers, Ignores ties
+
+SELECT * FROM (SELECT *, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees) t
+SELECT *, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees;
+
+both above queries are same but with second we can not filter using rnk, because rank is calculated after WHERE so Thats why filtering needs a subquery or CTE
+
+
+WITH ranked AS (
+    SELECT *, 
+           DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk
+    FROM employees
+)
+SELECT *
+FROM ranked
+WHERE rnk <= 3;
+
+SELECT * FROM (SELECT *, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees) t WHERE rnk <= 3;
+
+2. If You Want Only Top 2 Departments
+
+SELECT *
+FROM (
+    SELECT 
+        department,
+        AVG(salary) AS avg_salary,
+        DENSE_RANK() OVER (ORDER BY AVG(salary) DESC) AS rnk
+    FROM employees
+    GROUP BY department
+) t
+WHERE rnk <= 2;

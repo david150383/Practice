@@ -1,0 +1,92 @@
+2. What is the JIT compiler in PHP 8?
+
+Improves performance by compiling PHP code into machine code at runtime.
+
+Useful for CPU-intensive tasks, not much impact on typical web apps.
+
+3. What are Union Types?
+function foo(int|string $value) {
+    return $value;
+}
+
+Allows multiple data types for a parameter or return type.
+
+4. Explain the Match Expression.
+$result = match($status) {
+    200 => 'OK',
+    404 => 'Not Found',
+    default => 'Unknown',
+};
+
+Similar to switch but:
+
+No fall-through
+
+Returns a value
+
+Uses strict comparison (===)
+
+5. What are Named Arguments?
+function user($name, $age) {}
+user(age: 25, name: "John");
+
+Pass arguments by parameter name instead of position.
+
+6. What is the Nullsafe Operator?
+$user?->getProfile()?->getEmail();
+
+Prevents errors when chaining methods on null values.
+
+7. What are Attributes in PHP 8?
+#[Route('/home')]
+function index() {}
+
+Native way to add metadata to classes/functions (replaces docblock annotations).
+
+8. What is Constructor Property Promotion?
+class User {
+    public function __construct(private string $name) {}
+}
+
+Declare and initialize properties in constructor directly.
+
+9. What are Traits?
+trait Logger {
+    function log() {}
+}
+
+Used to reuse code in multiple classes (horizontal inheritance).
+
+10. What is Dependency Injection?
+Passing dependencies into a class instead of creating them inside.
+Improves testability and flexibility.
+
+11. What are WeakMaps?
+Store object keys without preventing garbage collection.
+
+12. How do you secure a PHP application?
+Use prepared statements (PDO)
+Validate & sanitize input
+Use HTTPS
+Avoid exposing errors in production
+
+13. How Autoloading Works in PHP
+When you try to use a class that hasn't been included yet, PHP:
+
+i. Checks if the class exists
+ii. If not, it calls a registered autoload function
+iii. That function loads the required file 
+
+Using spl_autoload_register()
+This is the standard way in modern PHP:
+
+spl_autoload_register(function ($className) {
+    include 'classes/' . $className . '.php';
+});
+
+✅ Example:
+$user = new User(); // Automatically loads classes/User.php
+
+👉 PHP will call the autoload function and load:
+
+classes/User.php

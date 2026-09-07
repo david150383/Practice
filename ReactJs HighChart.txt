@@ -1,0 +1,63 @@
+https://www.highcharts.com/integrations/react/
+
+npm install @highcharts/react
+
+
+import { Chart, Title, XAxis } from "@highcharts/react";
+import { LineSeries } from "@highcharts/react/series/Line";
+import { ColumnSeries } from "@highcharts/react/series/Column";
+import { Exporting } from "@highcharts/react/modules/Exporting";
+
+export default function App() {
+  const categories = ["Jan", "Feb", "Mar", "Apr", "May"];
+  const data = [120, 200, 150, 300, 550];
+  const data2 = [120, 200, 150, 300, 250];
+
+  const series = [
+    {
+      name: "Revenue",
+      color: "#2563eb",
+      data: [120, 200, 150, 300, 250],
+    },
+    {
+      name: "Profit",
+      color: "#16a34a",
+      data: [50, 90, 70, 120, 110],
+    },
+  ];
+
+<Chart>
+  <XAxis categories={["Jan", "Feb", "Mar", "Apr", "May"]} />
+
+  {series.map((s) => (
+    <LineSeries
+      key={s.name}
+      {...s}
+    />
+  ))}
+</Chart>
+  return (
+    <>
+      <Chart>
+        <Title>My Chart</Title>
+        <Exporting />
+        <XAxis categories={categories} />
+        <LineSeries name="Sales 2024" data={data} color={"blue"} />
+        <LineSeries name="Sales 2025" data={data2} />
+      </Chart>
+
+      <Chart>
+        <XAxis categories={["Jan", "Feb", "Mar", "Apr", "May"]} />
+
+        {series.map((s) => (
+          <LineSeries key={s.name} {...s} />
+        ))}
+      </Chart>
+
+      <Chart>
+        <ColumnSeries data={[1, 2, 3]} />
+        <ColumnSeries data={[2, 1, 4]} />
+      </Chart>
+    </>
+  );
+}

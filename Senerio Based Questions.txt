@@ -1,0 +1,139 @@
+1. Experience with Large Production Systems
+Question:
+Describe the largest project you have worked on.
+How many users did it serve? What was the tech stack? What were you personally responsible for?
+Candidate’s response:
+Purpose:
+To verify real experience with large-scale production systems and ownership level.
+What to look for:
+Concrete numbers (users, traffic, team size)
+Clear description of personal responsibility
+Experience with real production systems
+Understanding of system complexity
+
+millions of customers, they can place order using marketplace website, call center, walkin, delivery, takeaway etc.
+thoursand of Brands like broccoli, 
+each brand can have 100s of stores in different countries and locations
+each brand have their own users for place order for customer or customers can also place using marketplace website and app
+
+I handle for implementation for new features, mantainence for existing features, third party integration like menu listing in talabat, zomato, deliveroo, delivery integration jeebly, tawaseel, integration for payment gateway, sms service, cron jobs, kds screen, 
+deployment
+
+1. What do you mean by system complexity?
+
+Talk about how a system has many components interacting with each other.
+
+Mention factors like size, dependencies, integrations, and scalability.
+
+2. What are the types of complexity in systems?
+
+Structural complexity – number of components/modules
+
+Dynamic complexity – runtime behavior, concurrency
+
+Cognitive complexity – how hard it is for humans to understand
+
+4. What causes systems to become complex over time?
+
+Feature creep
+
+Poor design decisions
+
+Tight coupling
+
+Lack of documentation
+
+
+
+
+2. Working with Legacy Code
+Question:
+Have you worked with complex or poorly documented legacy code?
+How did you approach understanding and safely modifying it?
+Candidate’s response:
+Purpose:
+To assess independence and ability to work safely in a real production codebase.
+What to look for:
+Systematic code reading
+Use of debugging/logging tools
+Incremental and safe changes
+Awareness of production risks
+3. Optimizing a Slow PHP Endpoint
+Question:
+A PHP endpoint in production becomes slow.
+What steps would you take to analyze and fix the issue?
+Candidate’s response:
+Purpose:
+To evaluate backend performance thinking and debugging skills.
+What to look for:
+Checking logs and metrics
+Profiling
+Database query analysis
+Index optimization
+Use of caching (e.g., Redis)
+Identifying bottlenecks before changing code
+4. SQL Performance Case
+Question:
+Tell us about a time when a SQL query was slow.
+What exactly did you do to improve performance?
+Candidate’s response:
+Purpose:
+To test practical SQL knowledge and analytical thinking.
+What to look for:
+Use of EXPLAIN
+Index optimization
+Query restructuring
+Understanding of joins and data volume impact
+Concrete real-world example
+5. Production Incident Handling
+Question:
+After a release, you see a spike in errors in Sentry.
+What are your next steps?
+Candidate’s response:
+Purpose:
+To assess responsibility and production mindset.
+What to look for:
+Severity assessment
+Rollback awareness
+Checking recent changes
+Communication with the team
+Root cause investigation
+6. React State Mutation Bug
+Question:
+A React component stores an array of items in state.
+After updating one item in the array, the UI does not re-render even though the data has changed.
+What could cause this and how would you fix it?
+Candidate’s response:
+Purpose:
+To evaluate understanding of React state immutability and how React detects state changes.
+What to look for:
+Understanding that React relies on reference comparison
+Awareness that mutating the existing array or object can prevent re-render
+Suggestion to create a new array/object instead of mutating state
+Use of immutable update patterns (map, spread, etc.)
+7. Race Conditions in API Requests
+Question:
+Imagine a search input that sends an API request on every user keystroke.
+Sometimes users see outdated results because earlier requests finish after later ones.
+How would you prevent this problem?
+Candidate’s response:
+Purpose:
+To evaluate understanding of asynchronous behavior, race conditions, and handling concurrent requests in frontend applications.
+What to look for:
+Understanding that responses may arrive out of order
+Cancelling previous requests (AbortController or similar)
+Tracking request IDs and ignoring outdated responses
+Debouncing input to reduce request frequency
+Managing request state correctly in the UI
+
+
+
+
+
+
+Introduction
+choose startup or well established company
+work individual or in large team
+annoing things happen which you peace off
+hardest things you face while working
+what you do, if you have much money not to work
