@@ -1,10 +1,3 @@
-curring
-optional chaning
-nullish operator
-generator
-
-
-
 const array = [
   { date: "2022-02-10T13:10:00.000Z", value: 10 },
   { date: "2022-02-10T13:15:00.000Z", value: 20 },
