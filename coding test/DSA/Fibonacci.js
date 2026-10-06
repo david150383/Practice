@@ -6,3 +6,6 @@ function fibonacci(n) {
   return arr;
 }
 console.log(fibonacci(10)); // [0,1,1,2,3,5,8,13,21,34]
+
+//Time Complexity: O(n)
+//Space Complexity: O(n)

@@ -14,3 +14,7 @@ function charH1(str) {
 }
 
 console.log(charH1("ashis3hi34xhisfxhi"));
+
+//the time complexity is O(n²) and the space complexity is O(n).
+
+//as we have used substring, creates a new string in JavaScript implementations, and copying a substring can take O(k) where k is the substring length.

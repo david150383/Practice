@@ -33,3 +33,6 @@ function sortedSquares2(arr) {
 }
 
 console.log(sortedSquares2([-4, -1, 0, 2, 10])); // [0, 1, 4, 16, 100]
+
+//Time Complexity: O(n)
+//space : O(n)

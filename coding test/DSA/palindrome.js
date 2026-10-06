@@ -29,3 +29,6 @@ console.log(longestPalindrome("babad")); // "bab" or "aba"
 console.log(longestPalindrome("cbbd")); // "bb"
 console.log(longestPalindrome("forgeeksskeegfor")); // "geeksskeeg"
 console.log(longestPalindrome("aa")); // "geeksskeeg"
+
+//Time complexity = O(n³)
+//Space O(n)

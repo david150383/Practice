@@ -15,3 +15,16 @@ function queue2(arr, number) {
 }
 
 console.log(queue2([1, 4, 6, 7], 2));
+//Time Complexity: O(n)
+
+
+/*
+Space Complexity: O(1)
+This is a nice part of your implementation.
+
+You're modifying the original array:
+
+arr[i + 1] = arr[i];
+
+You don't create another array.
+*/

@@ -15,3 +15,13 @@ const res = powerSet([1, 2, 3]);
 for (const subset of res) {
   console.log("[" + subset.join(", ") + "]");
 }
+
+/*
+Time Complexity: O(n × 2ⁿ)
+
+This one is different from the previous problems because the number of subsets grows exponentially.
+
+Space Complexity: O(n × 2ⁿ)
+
+You are storing the entire power set:
+*/

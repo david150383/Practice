@@ -24,3 +24,5 @@ function isPared(str) {
 }
 
 console.log(isPared("({2+3}*4)"));
+//Time Complexity: O(n)
+//Space Complexity: O(n)
