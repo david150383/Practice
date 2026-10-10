@@ -7,7 +7,7 @@ function debounce(fn, delay) {
 }
 // Usage
 const log = debounce(() => console.log("Called!"), 500);
-
+log();
 //throttle
 function throttle(fn, delay) {
   let lastCall = 0;
