@@ -2,162 +2,19 @@ Since you already have backend experience (Node.js/NestJS and PHP/Laravel), I'll
 
 ## Python `list` methods cheat sheet
 
-|
-Python
-
-|
-
-Purpose
-
-|
-
-JavaScript equivalent
-
-|
+|Python|Purpose|JavaScript equivalent|
 | --- | --- | --- |
-|
-
-`append()`
-
-|
-
-Add one item
-
-|
-
-`push()`
-
-|
-|
-
-`extend()`
-
-|
-
-Add multiple items
-
-|
-
-`push(...items)`
-
-|
-|
-
-`insert()`
-
-|
-
-Insert at index
-
-|
-
-`splice(index,0,item)`
-
-|
-|
-
-`remove()`
-
-|
-
-Remove first matching value
-
-|
-
-`splice(index,1)` after `indexOf`
-
-|
-|
-
-`pop()`
-
-|
-
-Remove and return item
-
-|
-
-`pop()` / `shift()`
-
-|
-|
-
-`clear()`
-
-|
-
-Remove all items
-
-|
-
-`arr.length = 0`
-
-|
-|
-
-`index()`
-
-|
-
-Find index
-
-|
-
-`indexOf()`
-
-|
-|
-
-`count()`
-
-|
-
-Count occurrences
-
-|
-
-`filter().length`
-
-|
-|
-
-`sort()`
-
-|
-
-Sort in place
-
-|
-
-`sort()`
-
-|
-|
-
-`reverse()`
-
-|
-
-Reverse in place
-
-|
-
-`reverse()`
-
-|
-|
-
-`copy()`
-
-|
-
-Shallow copy
-
-|
-
-`[...arr]`
-
-|
+|`append()`|Add one item|`push()`|
+|`extend()`|Add multiple items|`push(...items)`|
+|`insert()`|Insert at index|`splice(index,0,item)`|
+|`remove()`|Remove first matching value|`splice(index,1)` after `indexOf`|
+|`pop()`|Remove and return item|`pop()` / `shift()`|
+|`clear()`|Remove all items|`arr.length = 0`|
+|`index()`|Find index|`indexOf()`|
+|`count()`|Count occurrences|`filter().length`|
+|`sort()`|Sort in place|`sort()`|
+|`reverse()`|Reverse in place|`reverse()`|
+|`copy()`|Shallow copy|`[...arr]`|
 
 ## 1. `append()`
 
