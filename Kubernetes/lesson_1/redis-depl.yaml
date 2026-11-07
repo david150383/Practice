@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis-depl
+  name: redis-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis-depl
+  template:
+    metadata:
+      labels:
+        app: redis-depl
+    spec:
+      containers:
+      - image: redis
+        name: redis
