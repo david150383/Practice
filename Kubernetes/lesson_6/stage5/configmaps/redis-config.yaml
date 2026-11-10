@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-configuration
+  namespace: tickets-app
+data:
+  REDIS_HOST: expiration-redis-srv
