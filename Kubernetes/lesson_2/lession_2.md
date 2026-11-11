@@ -62,6 +62,33 @@ kubectl get pods -n ingress-nginx
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
+
+<span style="color:blue">Let's see what above configuration file created in our cluster</span>
+```
+kubectl get all  -n ingress-nginx
+```
+**Output**
+```bash
+NAME                                            READY   STATUS    RESTARTS   AGE
+pod/ingress-nginx-controller-86c5998465-f9kps   1/1     Running   0          49s
+
+NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+service/ingress-nginx-controller             LoadBalancer   10.101.103.132   localhost     80:30285/TCP,443:30390/TCP   49s
+service/ingress-nginx-controller-admission   ClusterIP      10.104.126.191   <none>        443/TCP                      49s
+
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-nginx-controller   1/1     1            1           49s
+
+NAME                                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/ingress-nginx-controller-86c5998465   1         1         1       49s
+```
+Above configuration file created following things
+1. Created one deployment (deployment include pod and replicaset that's why we have pod and replicaset as well) 
+2. Created 2 services, 
+-- One ClusterIP service for internal use
+-- One LoadBalancer service for make it accessible outside cluster for client browser, You can notice in `External-Ip` its `localhost` because we executed it in `Local Cluster`, if we will execute it in `EKS` or `other kubernetes cluster` on cloud it will automatically create a `LoadBalancer` on Cloud and show that load balancer `IP` here, So we can use `dns control` panel to point `A record` to this IP. Ingress service rule already has rule for `forward request` to desired service as per route.
+
+
 #### 3. Add host file entry as below
 ```
 nano /etc/hosts
