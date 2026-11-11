@@ -2,6 +2,9 @@
 
 In Kubernetes, you set CPU and memory resources for Pods using `resources.requests` and `resources.limits` inside the container specification.
 
+> [!NOTE]
+> I have copied stage5 project yaml files into stage6 and will change them now for improvements
+
 ### 1. Requests vs Limits
 
 | Resource | Requests | Limits |
