@@ -152,5 +152,14 @@ Will work perfectly.
 - always use labels, so pods will be group and manage
 - Use namespace, by default we have default namespace, so using this we can isolate resources, like ecommerce namaspace for all ecommerce application pods etc. We can also set access rights as per namaspace.
 
+
+1. Always define CPU and memory requests.
+2. Set memory limits carefully to avoid `OOMKilled`.
+3. Monitor actual resource usage using `kubectl top`.
+4. Avoid setting CPU limits too low because they can cause CPU throttling.
+5. Use a Vertical Pod Autoscaler (VPA) to help recommend resource requests.
+6. Use a Horizontal Pod Autoscaler (HPA) to scale replicas based on CPU or memory utilization.
+
+
 > [!NOTE]
 > We have three options for check liveness, readiness 1. exec (execute a command script) 2. tcpSocket 3. httpGet (a url in applicaiton for just check)

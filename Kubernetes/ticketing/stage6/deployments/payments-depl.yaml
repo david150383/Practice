@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-depl
+  namespace: tickets-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+        - name: payments
+          image: ticketing-nats-payments-app:1.2
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          startupProbe:
+            httpGet:
+              path: /api/payments/health/live
+              port: 3002
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+
+          livenessProbe:
+            httpGet:
+              path: /api/payments/health/live
+              port: 3002
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/payments/health/ready
+              port: 3002
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+            successThreshold: 2
+          envFrom:
+            - configMapRef:
+                name: nats-configuration
+            - secretRef:
+                name: my-app-secret
+            - secretRef:
+                name: my-stripe-secret
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configuration
+                  key: MONGO_URI_PAYMENTS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-srv
+  namespace: tickets-app
+spec:
+  selector:
+    app: payments
+  ports:
+    - name: payments
+      protocol: TCP
+      port: 3000
+      targetPort: 3002

@@ -46,7 +46,7 @@ kubectl create secret generic jwt-secret --from-literal=JWT_KEY=my_super_secret_
 kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=placeyourstripekeyhere
 ```
 
-In `stage1` folder, We have created `deployment` and `service` for all, also used 3000 port for all backend services and port 80 for frontend.
+In `ticketing/stage1` folder, We have created `deployment` and `service` for all, also used 3000 port for all backend services and port 80 for frontend.
 Now as all running in same 3000 port so how it will work ?
 
 We have created a ingress controller service `ingress-srv.yaml` which will forward request to required service according to configuration
