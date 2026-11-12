@@ -202,3 +202,8 @@ Allocated resources:
   ......
 ```
 It will show how much resources used by pods and how much available for you to use.
+
+---
+
+### Deployment Replicas
+Right now we have `replicas: 1` in each Deployment, it should be minimum 2 as per production best practice, so let's update all deployment files except `nats, redis, mongodb`. 
