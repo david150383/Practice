@@ -474,7 +474,7 @@ Scale up
 
 Fast
 
-# +4 pods
+<span style="font-size: 1.5em;">+4 pods</span>
 
 Maximum increase per 60-second period
 
@@ -482,7 +482,7 @@ Scale down
 
 Conservative
 
-# −25%
+<span style="font-size: 1.5em;">−25%</span>
 
 Maximum reduction per 60-second period
 
@@ -670,7 +670,8 @@ spec:
 - `kind:` For VPA kind should be always `VerticalPodAutoscaler`
 - `namespace:` Namespace should be same as deployment. VPA can only scale a Deployment in the same namespace.
 
-```
+A. updateMode
+```yaml
 updatePolicy:
   updateMode: Recreate
 ```
@@ -687,6 +688,151 @@ I'd use Recreate for compatibility across VPA installations. If your Kubernetes 
 
 Important: Recreate can restart pods when recommendations change. It does not guarantee zero downtime by itself.
 
+b. minAllowed and maxAllowed
+```yaml
+minAllowed:
+  cpu: 250m
+  memory: 256Mi
+
+maxAllowed:
+  cpu: "1"
+  memory: 1Gi
+```
+
+These are safety boundaries.
+
+| Resource | Minimum | Maximum |
+| --- | --- | --- |
+| CPU | 250m | 1000m |
+| Memory | 256Mi | 1Gi |
+
+For example:
+
+- If your application needs 300m CPU, VPA can recommend 300m.
+- If it needs 700m CPU, VPA can recommend 700m.
+- If it needs 1.5 CPU, VPA cannot exceed your configured maximum of 1 CPU.
+
+The same principle applies to memory.
+
+These are starting guardrails, not universal optimal values. Tune them after observing actual workload behavior.
+
+C. controlledValues
+```yaml
+controlledValues: RequestsOnly
+```
+
+This is particularly important for your Deployment.
+
+Your existing configuration has:
+
+```yaml
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "1"
+    memory: "1Gi"
+```
+
+With `RequestsOnly`:
+
+- VPA can adjust CPU requests.
+- VPA can adjust memory requests.
+- CPU limits remain at `1`.
+- Memory limits remain at `1Gi`.
+
+This gives you automatic resource optimization without allowing VPA to change your existing container limits.
+
+
+#### Let's apply VPA configuration 
+
+##### First, make sure VPA is installed in your Kubernetes cluster.
+
+VPA requires its components:
+
+- Recommender
+- Updater
+- Admission Controller
+
+You can check whether VPA is installed:
+
+```bash
+kubectl get crd verticalpodautoscalers.autoscaling.k8s.io
+```
+**Output**
+```
+Error from server (NotFound): customresourcedefinitions.apiextensions.k8s.io "verticalpodautoscalers.autoscaling.k8s.io" not found
+```
+
+**Notice:** As per above output CRD not installed
+
+###### Install VPA**
+For a standard Kubernetes installation, clone the official VPA repository:
+```
+git clone https://github.com/kubernetes/autoscaler.git
+cd autoscaler/vertical-pod-autoscaler
+```
+Run the installation script:
+```
+./hack/vpa-up.sh
+```
+
+
+###### If the CRD exists, check the VPA components:
+```bash
+kubectl get pods -n kube-system | grep vpa
+```
+
+Apply your manifests:
+
+```bash
+kubectl apply -f autoscaling/tickets-vpa.yaml
+```
+**Output**
+```
+verticalpodautoscaler.autoscaling.k8s.io/tickets-vpa created
+```
+
+Check VPA status:
+
+bash
+
+```bash
+kubectl get vpa -n tickets-app
+```
+
+Get detailed recommendations:
+
+bash
+
+```bash
+kubectl describe vpa tickets-vpa -n tickets-app
+```
+
+#### Production recommendations
+
+I'd follow this rollout strategy:
+
+| Stage | Configuration | Duration |
+| --- | --- | --- |
+| 1 | `updateMode: Off` | 7–14 days |
+| 2 | Review VPA recommendations | Before enabling updates |
+| 3 | `updateMode: Recreate` | Production rollout |
+| 4 | Monitor resource usage and restarts | Ongoing |
+
+Why start with `Off`?
+
+Because you don't want VPA changing resource requests immediately without understanding your application's normal traffic patterns.
+
+After collecting sufficient metrics, switch to `Recreate`.
+#### Important things to remember
+
+1. VPA does not increase or decrease replicas. It adjusts CPU and memory requests. HPA handles replica scaling.
+2. Avoid CPU-based HPA and VPA controlling CPU requests together without a deliberate design. Changing CPU requests affects HPA utilization calculations.
+3. Memory is particularly important for Node.js applications. Monitor heap usage, RSS, and container OOM kills.
+4. Keep resource limits reasonable. VPA recommendations cannot exceed the configured maximum in this configuration.
+5. Two replicas are a relatively small availability margin. Consider three or more replicas for critical production workloads, depending on capacity and availability requirements.
 ---
 
 ### 3. Node Autoscaling
