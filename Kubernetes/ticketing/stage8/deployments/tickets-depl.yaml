@@ -4,10 +4,20 @@ metadata:
   name: tickets-depl
   namespace: tickets-app
 spec:
-  replicas: 2
+  # Omit replicas if HPA manages scaling.
   selector:
     matchLabels:
       app: tickets
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  minReadySeconds: 10
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 5
+
   template:
     metadata:
       labels:
