@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configuration
+  namespace: tickets-app
+data:
+  MONGO_URI_AUTH: "mongodb://mongo-srv:27017/auth"
+  MONGO_URI_ORDERS: "mongodb://mongo-srv:27017/orders"
+  MONGO_URI_PAYMENTS: "mongodb://mongo-srv:27017/payments"
+  MONGO_URI_TICKETS: "mongodb://mongo-srv:27017/tickets"
