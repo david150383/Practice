@@ -1,32 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mongo-app-depl
-  namespace: tickets-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mongo-app
-  template:
-    metadata:
-      labels:
-        app: mongo-app
-    spec:
-      containers:
-        - name: mongo-app
-          image: mongo:8
----
 apiVersion: v1
 kind: Service
 metadata:
   name: mongo-srv
   namespace: tickets-app
 spec:
+  type: ClusterIP
   selector:
-    app: mongo-app
+    app.kubernetes.io/instance: mongo-srv
+    app.kubernetes.io/name: mongodb
   ports:
-    - name: db
+    - name: mongodb
       protocol: TCP
       port: 27017
       targetPort: 27017

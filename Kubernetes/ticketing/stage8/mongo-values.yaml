@@ -1,0 +1,37 @@
+
+# Keep the existing service name
+fullnameOverride: mongo-srv
+
+# Single MongoDB instance
+replicaCount: 1
+
+# MongoDB image
+image:
+  repository: mongo
+  tag: "8"
+  pullPolicy: IfNotPresent
+
+# Persistent database storage
+persistence:
+  enabled: true
+  size: 5Gi
+  accessMode: ReadWriteOnce
+
+# Kubernetes resources
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# Internal Kubernetes service
+service:
+  type: ClusterIP
+  port: 27017
+
+auth:
+  enabled: true
+  rootUsername: admin
+  rootPassword: mypassword

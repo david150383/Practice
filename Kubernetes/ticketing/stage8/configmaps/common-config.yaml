@@ -4,7 +4,7 @@ metadata:
   name: app-configuration
   namespace: tickets-app
 data:
-  MONGO_URI_AUTH: "mongodb://mongo-srv:27017/auth"
-  MONGO_URI_ORDERS: "mongodb://mongo-srv:27017/orders"
-  MONGO_URI_PAYMENTS: "mongodb://mongo-srv:27017/payments"
-  MONGO_URI_TICKETS: "mongodb://mongo-srv:27017/tickets"
+  MONGO_URI_AUTH: "mongodb://admin:mypassword@mongo-srv:27017/auth?authSource=admin"
+  MONGO_URI_ORDERS: "mongodb://admin:mypassword@mongo-srv:27017/orders?authSource=admin"
+  MONGO_URI_PAYMENTS: "mongodb://admin:mypassword@mongo-srv:27017/payments?authSource=admin"
+  MONGO_URI_TICKETS: "mongodb://admin:mypassword@mongo-srv:27017/tickets?authSource=admin"
