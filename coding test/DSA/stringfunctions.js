@@ -119,7 +119,7 @@ str.substring(4, 10); // "Script"
 // 18. charCodeAt()
 // Returns Unicode value.
 
-"A".charCodeAt(0); // 65
+"ABC".charCodeAt(0); // 65
 
 /*============================
 ✅ Bonus: Template Strings(Very Common)

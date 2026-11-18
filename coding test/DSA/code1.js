@@ -25,7 +25,7 @@ function CodelandUsernameValidation(str) {
   //return str.charCodeAt(0)
 
   const lettersOnly = /^[A-Za-z0-9_]+$/;
-  const firstOnly = /^[A-Za-z_]+$/;
+  const firstOnly = /^[A-Za-z]+$/;
 
   if (!str[0].match(firstOnly) || !str.match(lettersOnly)) {
     return false;
