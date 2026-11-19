@@ -1,12 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, Body, HttpCode } from '@nestjs/common';
 
-@Controller()
+// Define interface in the same file
+interface User {
+  id: number;
+  name: string;
+}
+
+@Controller('users')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+
+  users: User[] = [
+    { id: 1, name: 'mohan' }
+  ];
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getUsers(): User[] {
+    return this.users;
+  }
+
+  @Post()
+  @HttpCode(201)
+  createUser(@Body() user: Omit<User, 'id'>): User {
+    const newUser: User = {
+      id: this.users.length + 1,
+      ...user
+    };
+
+    this.users.push(newUser);
+
+    return newUser;
   }
 }
